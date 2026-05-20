@@ -237,9 +237,11 @@ nav a.active::after {
     box-shadow: var(--shadow-sm);
 }
 
-.contact-btn:hover {
-    transform: translateY(-2px) scale(1.02);
-    box-shadow: var(--shadow-md);
+@media (hover: hover) and (min-width: 901px) {
+    .contact-btn:hover {
+        transform: translateY(-2px) scale(1.02);
+        box-shadow: var(--shadow-md);
+    }
 }
 
 .button {
@@ -444,7 +446,7 @@ nav a.active::after {
     transition: all 0.3s ease;
     cursor: pointer;
 }
-@media (hover: hover) {
+@media (hover: hover) and (min-width: 901px) {
     .theme-toggle:hover {
         background-color: var(--primary-color);
         color: var(--btn-text);
