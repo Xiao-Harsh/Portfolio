@@ -100,12 +100,12 @@
             </div>
 
             <div class="hero-bottom">
-                <h1 class="left-text">
+                <p class="left-text">
                     I AM<br>HARSH
-                </h1>
-                <h2 class="right-text">
+                </p>
+                <p class="right-text">
                     SOFTWARE<br>DEVELOPER
-                </h2>
+                </p>
             </div>
         </section>
 
@@ -129,45 +129,80 @@
         <section id="skills" class="skills section-padding">
             <div class="section-container">
                 <h2 class="section-title reveal fade-up">My Skills</h2>
-                <p class="large-text reveal fade-up" style="--delay: 0.1s; margin-bottom: 4rem;">Tools and technologies
+                <p class="large-text reveal fade-up" style="--delay: 0.1s; margin-bottom: 2.5rem;">Tools and
+                    technologies
                     I have experience with and use to build projects.</p>
-                <div class="skills-icon-grid reveal fade-up" style="--delay: 0.2s">
-                    <div class="skill-item">
+
+                <!-- Category Filter Pills -->
+                <div class="skills-filter reveal fade-up" style="--delay: 0.2s">
+                    <button class="filter-pill active" data-category="all">All</button>
+                    <button class="filter-pill" data-category="languages">Languages</button>
+                    <button class="filter-pill" data-category="web">Web</button>
+                    <button class="filter-pill" data-category="database">Database</button>
+                    <button class="filter-pill" data-category="tools">Tools</button>
+                </div>
+
+                <!-- Skills Grid -->
+                <div class="skills-grid reveal fade-up" style="--delay: 0.3s">
+                    <!-- Languages -->
+                    <div class="skill-item" data-category="languages">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/java/java-original.svg"
-                            alt="" aria-hidden="true">
+                            alt="Java" aria-hidden="true">
                         <span>Java</span>
                     </div>
-                    <div class="skill-item">
-                        <img src="https://cdn.simpleicons.org/c/00599C" alt="" aria-hidden="true">
+                    <div class="skill-item" data-category="languages">
+                        <img src="https://cdn.simpleicons.org/c/00599C" alt="C" aria-hidden="true">
                         <span>C</span>
                     </div>
-                    <div class="skill-item">
+                    <div class="skill-item" data-category="languages">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg"
-                            alt="" aria-hidden="true">
+                            alt="Python" aria-hidden="true">
                         <span>Python</span>
                     </div>
-                    <div class="skill-item">
-                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
-                            alt="" aria-hidden="true">
-                        <span>MySQL</span>
-                    </div>
-                    <div class="skill-item">
+
+                    <!-- Web -->
+                    <div class="skill-item" data-category="web">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/html5/html5-original.svg"
-                            alt="" aria-hidden="true">
+                            alt="HTML" aria-hidden="true">
                         <span>HTML</span>
                     </div>
-                    <div class="skill-item">
+                    <div class="skill-item" data-category="web">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/css3/css3-original.svg"
+                            alt="CSS" aria-hidden="true">
+                        <span>CSS</span>
+                    </div>
+                    <div class="skill-item" data-category="web">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/javascript/javascript-original.svg"
+                            alt="JavaScript" aria-hidden="true">
+                        <span>JavaScript</span>
+                    </div>
+
+                    <!-- Database -->
+                    <div class="skill-item" data-category="database">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/mysql/mysql-original.svg"
+                            alt="MySQL" aria-hidden="true">
+                        <span>MySQL</span>
+                    </div>
+
+                    <!-- Tools -->
+                    <div class="skill-item" data-category="tools">
                         <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/github/github-original.svg"
-                            alt="" aria-hidden="true" class="invert-dark">
+                            alt="GitHub" aria-hidden="true" class="invert-dark">
                         <span>GitHub</span>
                     </div>
-                    <div class="skill-item">
-                        <img src="https://cdn.simpleicons.org/scilab" alt="" aria-hidden="true">
-                        <span>Scilab</span>
-                    </div>
-                    <div class="skill-item">
-                        <img src="https://cdn.simpleicons.org/vercel" alt="" aria-hidden="true" class="invert-dark">
+                    <div class="skill-item" data-category="tools">
+                        <img src="https://cdn.simpleicons.org/vercel" alt="Vercel" aria-hidden="true"
+                            class="invert-dark">
                         <span>Vercel</span>
+                    </div>
+                    <div class="skill-item" data-category="tools">
+                        <img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/vscode/vscode-original.svg"
+                            alt="VS Code" aria-hidden="true">
+                        <span>VS Code</span>
+                    </div>
+                    <div class="skill-item" data-category="tools">
+                        <img src="https://cdn.simpleicons.org/scilab" alt="Scilab" aria-hidden="true">
+                        <span>Scilab</span>
                     </div>
                 </div>
             </div>
@@ -209,7 +244,7 @@
                                     </div>
                                     <div class="stat-info">
                                         <h4>Coding Profiles</h4>
-                                        <p>LeetCode 127 &bull; GFG 23</p>
+                                        <p>LeetCode 139 &bull; GFG 24</p>
                                     </div>
                                 </div>
                                 <!-- Card 3 -->

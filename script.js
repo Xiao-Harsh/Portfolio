@@ -204,4 +204,69 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', updateActiveNav);
     window.addEventListener('load', updateActiveNav);
     updateActiveNav(); // Trigger initially to set correct state
+
+    // 7. Skills Category Filtering
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const skillItems = document.querySelectorAll('.skill-item');
+
+    if (filterPills.length > 0 && skillItems.length > 0) {
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                // If clicked pill is already active, do nothing
+                if (pill.classList.contains('active')) return;
+
+                // Remove active class from all pills
+                filterPills.forEach(p => p.classList.remove('active'));
+                // Add active class to clicked pill
+                pill.classList.add('active');
+
+                const category = pill.getAttribute('data-category');
+
+                const itemsToHide = [];
+                const itemsToShow = [];
+
+                skillItems.forEach(item => {
+                    const itemCat = item.getAttribute('data-category');
+                    if (category === 'all' || itemCat === category) {
+                        itemsToShow.push(item);
+                    } else {
+                        itemsToHide.push(item);
+                    }
+                });
+
+                // Phase 1: Fade out items that don't match
+                itemsToHide.forEach(item => {
+                    if (!item.classList.contains('hidden')) {
+                        item.classList.add('fade-exit-active');
+                    }
+                });
+
+                // Wait for fade-out transition, then swap display and trigger fade-in
+                setTimeout(() => {
+                    itemsToHide.forEach(item => {
+                        item.classList.add('hidden');
+                        item.classList.remove('fade-exit-active');
+                    });
+
+                    itemsToShow.forEach(item => {
+                        if (item.classList.contains('hidden')) {
+                            item.classList.remove('hidden');
+                            item.classList.add('fade-enter');
+                            
+                            // Trigger reflow to restart animation
+                            void item.offsetWidth;
+                            
+                            item.classList.add('fade-enter-active');
+                            item.classList.remove('fade-enter');
+                            
+                            // Clean up classes after animation completes
+                            setTimeout(() => {
+                                item.classList.remove('fade-enter-active');
+                            }, 350);
+                        }
+                    });
+                }, 250); // Match style.css exit transition duration (0.25s)
+            });
+        });
+    }
 });

@@ -674,54 +674,173 @@ main {
 
 /* SKILLS SECTION */
 .skills {
-    /* Left aligned by default */
+    position: relative;
+    overflow: hidden;
 }
 
-.skills-icon-grid {
+/* Cinematic soft glow backdrop */
+.skills::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: min(80vw, 800px);
+    height: min(80vw, 800px);
+    background: radial-gradient(circle, rgba(0, 0, 0, 0.015) 0%, rgba(0, 0, 0, 0) 70%);
+    z-index: -1;
+    pointer-events: none;
+    transition: background 0.4s ease;
+}
+
+body.dark-mode .skills::before {
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.035) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+/* Category Filter Navigation */
+.skills-filter {
     display: flex;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    gap: 4rem;
-    max-width: 900px;
+    gap: 0.8rem;
+    margin-bottom: 4rem;
+    align-items: center;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scrollbar-width: none; /* Hide scrollbar Firefox */
+    -ms-overflow-style: none;  /* Hide scrollbar IE/Edge */
+    padding-bottom: 0.5rem;
+    width: 100%;
 }
 
+.skills-filter::-webkit-scrollbar {
+    display: none; /* Hide scrollbar Safari/Chrome */
+}
+
+.filter-pill {
+    background: transparent;
+    padding: 0.6rem 1.6rem;
+    border: 1px solid var(--border-color);
+    border-radius: 50px;
+    font-weight: 500;
+    font-size: 0.9rem;
+    font-family: var(--font-sans);
+    color: var(--text-color-medium);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+/* Light mode hover state */
+@media (hover: hover) and (min-width: 901px) {
+    .filter-pill:hover {
+        background-color: var(--placeholder-hover);
+        color: var(--text-color);
+    }
+}
+
+/* Active Pill styles */
+/* Light Mode Active */
+.filter-pill.active {
+    background-color: #000000;
+    color: #ffffff;
+    border-color: #000000;
+}
+
+/* Dark Mode Active */
+body.dark-mode .filter-pill.active {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.18);
+}
+
+/* Skills Grid */
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 4rem 3rem;
+    max-width: 1000px;
+    width: 100%;
+    position: relative;
+    min-height: 200px; /* Preserve height to prevent jumps */
+}
+
+/* Skill Item */
 .skill-item {
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.2rem;
-    transition: transform 0.4s ease;
     cursor: pointer;
-}
-
-.skill-item:hover {
-    transform: translateY(-10px);
+    transition: filter 0.4s ease, opacity 0.4s ease, transform 0.4s ease;
 }
 
 .skill-item img {
     width: 100%;
-    max-width: 100px;
+    max-width: 80px;
     aspect-ratio: 1;
     object-fit: contain;
-    transition: filter 0.3s ease, transform 0.3s ease;
-    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
-}
-
-.skill-item:hover img {
-    transform: scale(1.15);
-    filter: drop-shadow(0 8px 15px rgba(0, 0, 0, 0.15));
+    opacity: 0.9;
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.05));
+    transition: filter 0.4s cubic-bezier(0.16, 1, 0.3, 1), transform 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
 }
 
 .skill-item span {
-    font-size: 1.1rem;
+    font-size: 1rem;
     font-weight: 500;
     color: var(--text-color-light);
-    transition: color 0.3s ease, transform 0.3s ease;
+    transition: color 0.4s ease;
 }
 
-.skill-item:hover span {
-    color: var(--text-color);
-    transform: scale(1.05);
+/* Dark mode handling for Grayscale Logos (e.g. GitHub, Vercel) */
+body.dark-mode .skill-item img.invert-dark {
+    filter: invert(1);
+}
+
+/* Hover Animations - Desktop only */
+@media (hover: hover) and (min-width: 901px) {
+    .skill-item:hover img {
+        transform: translateY(-5px) scale(1.08);
+        opacity: 1;
+        filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
+    }
+    
+    body.dark-mode .skill-item:hover img.invert-dark {
+        filter: invert(1) drop-shadow(0 8px 16px rgba(255, 255, 255, 0.12));
+    }
+    
+    .skill-item:hover span {
+        color: var(--text-color);
+    }
+}
+
+/* Filtering Animation Classes */
+.skill-item.hidden {
+    display: none !important;
+}
+
+.skill-item.fade-enter {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+}
+
+.skill-item.fade-enter-active {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.skill-item.fade-exit-active {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
+    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Responsive Overrides */
+@media (max-width: 900px) {
+    .skills-grid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 3.5rem 2.5rem;
+    }
 }
 
 /* PROJECTS SECTION */
@@ -1389,7 +1508,8 @@ body.dark-mode .stat-card {
 
     .skills-grid {
         grid-template-columns: repeat(3, 1fr);
-        gap: 1.5rem;
+        gap: 3rem 1.5rem;
+        min-height: 380px;
     }
 
     /* Hide custom cursor on mobile */
