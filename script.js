@@ -2,7 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // 1. Custom Cursor Logic
     const cursor = document.querySelector('.cursor');
     const follower = document.querySelector('.cursor-follower');
-    const interactiveElements = document.querySelectorAll('a, .availability-badge, button');
 
     if (window.matchMedia("(pointer: fine)").matches) {
         // Only hide default cursor if JS successfully executes
@@ -122,10 +121,12 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.classList.add('dark-mode');
         if (moonIcon) moonIcon.style.display = 'none';
         if (sunIcon) sunIcon.style.display = 'block';
+        if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', 'Toggle Light Mode');
     } else {
         document.body.classList.remove('dark-mode');
         if (moonIcon) moonIcon.style.display = 'block';
         if (sunIcon) sunIcon.style.display = 'none';
+        if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', 'Toggle Dark Mode');
     }
 
     if (themeToggleBtn) {
@@ -138,9 +139,11 @@ document.addEventListener('DOMContentLoaded', () => {
             if (isDark) {
                 if (moonIcon) moonIcon.style.display = 'none';
                 if (sunIcon) sunIcon.style.display = 'block';
+                themeToggleBtn.setAttribute('aria-label', 'Toggle Light Mode');
             } else {
                 if (moonIcon) moonIcon.style.display = 'block';
                 if (sunIcon) sunIcon.style.display = 'none';
+                themeToggleBtn.setAttribute('aria-label', 'Toggle Dark Mode');
             }
         });
     }

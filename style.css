@@ -446,6 +446,7 @@ nav a.active::after {
     transition: all 0.3s ease;
     cursor: pointer;
 }
+
 @media (hover: hover) and (min-width: 901px) {
     .theme-toggle:hover {
         background-color: var(--primary-color);
@@ -705,14 +706,17 @@ body.dark-mode .skills::before {
     align-items: center;
     flex-wrap: nowrap;
     overflow-x: auto;
-    scrollbar-width: none; /* Hide scrollbar Firefox */
-    -ms-overflow-style: none;  /* Hide scrollbar IE/Edge */
+    scrollbar-width: none;
+    /* Hide scrollbar Firefox */
+    -ms-overflow-style: none;
+    /* Hide scrollbar IE/Edge */
     padding-bottom: 0.5rem;
     width: 100%;
 }
 
 .skills-filter::-webkit-scrollbar {
-    display: none; /* Hide scrollbar Safari/Chrome */
+    display: none;
+    /* Hide scrollbar Safari/Chrome */
 }
 
 .filter-pill {
@@ -761,7 +765,8 @@ body.dark-mode .filter-pill.active {
     max-width: 1000px;
     width: 100%;
     position: relative;
-    min-height: 200px; /* Preserve height to prevent jumps */
+    min-height: 200px;
+    /* Preserve height to prevent jumps */
 }
 
 /* Skill Item */
@@ -803,11 +808,11 @@ body.dark-mode .skill-item img.invert-dark {
         opacity: 1;
         filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.1));
     }
-    
+
     body.dark-mode .skill-item:hover img.invert-dark {
         filter: invert(1) drop-shadow(0 8px 16px rgba(255, 255, 255, 0.12));
     }
-    
+
     .skill-item:hover span {
         color: var(--text-color);
     }
@@ -1798,6 +1803,20 @@ body.dark-mode .modal-box {
     min-height: 100vh;
     box-sizing: border-box;
     padding: 12rem 5rem 4rem 5rem;
+}
+
+.contact .section-container {
+    width: 100%;
+}
+
+@media (max-width: 900px) {
+    .contact {
+        min-height: auto;
+        padding: 8rem 2rem 3rem 2rem;
+    }
+}
+
+padding: 12rem 5rem 4rem 5rem;
 }
 
 .contact .section-container {
