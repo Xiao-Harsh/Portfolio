@@ -669,8 +669,161 @@ main {
     line-height: 1.4;
     font-weight: 400;
     color: var(--text-color-medium);
-    max-width: 900px;
+    max-width: 1100px;
     transition: color 0.4s ease;
+}
+
+.large-text strong {
+    font-weight: 600;
+    color: #ff7a00;
+}
+
+/* About Grid & Column Layout */
+.about-grid {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    gap: 6rem;
+    align-items: start;
+}
+
+.about-paragraph {
+    font-size: 1.55rem;
+    line-height: 1.7;
+    color: var(--text-color-medium);
+    margin-bottom: 2rem;
+    transition: color 0.4s ease;
+}
+
+.about-paragraph strong {
+    font-weight: 600;
+    color: #ff7a00;
+}
+
+.about-glass-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 2.2rem 2.5rem;
+    box-shadow: var(--shadow-md);
+    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
+    width: 100%;
+}
+
+.about-glass-panel:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-4px);
+}
+
+.about-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 1.8rem;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    width: 100%;
+}
+
+.sidebar-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.sidebar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: rgba(255, 122, 0, 0.04);
+    border: 1px solid rgba(255, 122, 0, 0.15);
+    color: #ff7a00;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    flex-shrink: 0;
+}
+
+body.dark-mode .sidebar-icon {
+    background-color: rgba(255, 122, 0, 0.08);
+    border-color: rgba(255, 122, 0, 0.25);
+}
+
+.sidebar-item:hover .sidebar-icon {
+    transform: scale(1.08);
+    background-color: rgba(255, 122, 0, 0.12);
+    border-color: #ff7a00;
+    box-shadow: 0 0 15px rgba(255, 122, 0, 0.25);
+}
+
+.sidebar-info h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--text-color);
+    margin-bottom: 0.2rem;
+}
+
+.sidebar-info p {
+    font-size: 0.95rem;
+    color: var(--text-color-light);
+    font-weight: 400;
+}
+
+/* Responsiveness for About Grid */
+@media (max-width: 991px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 4rem;
+    }
+
+    .about-sidebar {
+        gap: 1.8rem;
+    }
+
+    .sidebar-item {
+        padding-bottom: 1.5rem;
+    }
+}
+
+@media (max-width: 900px) {
+    .about-paragraph {
+        font-size: 1.35rem;
+    }
+}
+
+@media (max-width: 600px) {
+    .about-paragraph {
+        font-size: 1.15rem;
+    }
+    
+    .sidebar-icon {
+        width: 48px;
+        height: 48px;
+    }
+    
+    .sidebar-item {
+        gap: 1.2rem;
+        padding-bottom: 1.2rem;
+    }
+    
+    .sidebar-info h3 {
+        font-size: 1.05rem;
+    }
+    
+    .sidebar-info p {
+        font-size: 0.85rem;
+    }
+
+    .about-glass-panel {
+        padding: 1.8rem 1.4rem;
+        border-radius: 18px;
+    }
 }
 
 /* SKILLS SECTION */
@@ -1803,20 +1956,6 @@ body.dark-mode .modal-box {
     min-height: 100vh;
     box-sizing: border-box;
     padding: 12rem 5rem 4rem 5rem;
-}
-
-.contact .section-container {
-    width: 100%;
-}
-
-@media (max-width: 900px) {
-    .contact {
-        min-height: auto;
-        padding: 8rem 2rem 3rem 2rem;
-    }
-}
-
-padding: 12rem 5rem 4rem 5rem;
 }
 
 .contact .section-container {
