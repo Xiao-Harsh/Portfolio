@@ -11,8 +11,8 @@ My personal portfolio website to showcase my projects, skills, and journey as a 
 
 * **Custom Cursor:** A smooth dual-circle mouse pointer animation that follows your movement.
 * **Dark/Light Mode:** A simple theme toggle that saves your choice in the browser using `localStorage`.
-* **SVG Texture:** A subtle hand-drawn paper/noise effect using custom SVG turbulence filters.
 * **Scroll Animations:** Smooth fade-up reveals as you scroll through the sections.
+* **Skills Category Filtering:** Interactive category-based filter system (Languages, Web, Database, Tools) with smooth CSS/JS transitions.
 * **Contact Form:** A modal form connected to the Web3Forms API to send messages without refreshing the page.
 
 ---
@@ -21,31 +21,35 @@ My personal portfolio website to showcase my projects, skills, and journey as a 
 
 * HTML5 for semantic page layout.
 * CSS3 for styling, responsive grid structure, and keyframe animations.
-* JavaScript (ES6) for the custom cursor tracking, ScrollSpy active navigation, and theme toggling.
+* JavaScript (ES6) for the custom cursor tracking, ScrollSpy active navigation, theme toggling, and skills filtering.
 
 ---
 
 ## 📁 Projects Showcased
 
 ### 1. [Xiwat (Modern Watch Store)](https://github.com/Xiao-Harsh/Xiwat)
-* **Tech:** React, JavaScript, CSS Grid
-* **About:** An e-commerce watch store frontend. I built the state management logic from scratch to handle real-time product searches, dynamic filtering, and shopping cart actions.
+* **Tech:** React, JavaScript, CSS Grid, State Management
+* **About:** A high-performance e-commerce watch store frontend. I built the state management logic from scratch to handle real-time product searches, dynamic filtering, and shopping cart actions without relying on heavy external libraries.
 * **Live Demo:** [xiwat.vercel.app](https://xiwat.vercel.app/)
 
 ### 2. [Retrokey (Typing Challenger)](https://github.com/Xiao-Harsh/RetroKey)
 * **Tech:** Java, SQL, OOP Architecture, Data Structures
-* **About:** A typing speed training app. Designed using Java Object-Oriented Programming (OOP) principles and SQL queries to save user states, track statistics, and display a leaderboard.
+* **About:** A typing speed training app. Designed using Java Object-Oriented Programming (OOP) principles, Garbage Collection, and SQL queries to save user states, track statistics, and display a leaderboard.
 
 ---
 
 ## 📈 Education & Journey
 
-* **Galgotias University** – B.Tech in Computer Science & Engineering (Current).
+* **Galgotias University** – B.Tech in Computer Science & Engineering (2024 – Present).
+  * *Focus:* Core CS fundamentals and practical software engineering.
+* **Sarvodaya Bal Vidyalaya, Ashok Nagar, New Delhi** – 12th Class (Completed 2023).
+* **Govt. Boys Senior Secondary School, Rajouri Garden, New Delhi** – 10th Class (Completed 2021).
+
+### 📊 Stats & Journey Metrics
+* **Coding Experience:** 2+ Years of coding and hands-on development.
 * **Hackathons:** Participated in 5+ Hackathons, building prototypes and collaborating on software solutions.
-* **Coding Profiles:**
-  * **LeetCode:** 136+ Solved
-  * **GeeksforGeeks (GFG):** 24+ Solved
-* **Active involvements:** Member of DevCircle (Tech Council), Business Club (Student Council).
+* **Problem Solving:** 170+ DSA Problems Solved across coding profiles.
+* **Active Involvements:** Member of DevCircle (Tech Council), Business Club (Student Council).
 
 ---
 
@@ -66,12 +70,6 @@ Since this is a vanilla site, you can run it without any package installations:
 ---
 
 ## 🤝 Contact Me
-like the VS Code Live Server extension.  
-
----
-
-## 🤝 Contact Me
-
 
 Feel free to reach out if you want to collaborate or talk about Java, frontend development, or DSA!
 
