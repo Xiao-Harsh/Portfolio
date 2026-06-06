@@ -6,7 +6,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (window.matchMedia("(pointer: fine)").matches) {
         // Only hide default cursor if JS successfully executes
         document.body.classList.add('has-custom-cursor');
-        
+
         let posX = 0, posY = 0;
         let mouseX = 0, mouseY = 0;
 
@@ -38,13 +38,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Event Delegation for hover effects (automatically handles dynamically added elements)
         document.addEventListener('mouseover', (e) => {
-            if (e.target.closest('a, button, input, textarea, .availability-badge, .skill-item, .stat-card')) {
+            if (e.target.closest('a, button, input, textarea, .availability-badge, .skill-item')) {
                 document.body.classList.add('cursor-hover');
             }
         });
 
         document.addEventListener('mouseout', (e) => {
-            if (e.target.closest('a, button, input, textarea, .availability-badge, .skill-item, .stat-card')) {
+            if (e.target.closest('a, button, input, textarea, .availability-badge, .skill-item')) {
                 document.body.classList.remove('cursor-hover');
             }
         });
@@ -75,8 +75,8 @@ document.addEventListener('DOMContentLoaded', () => {
         revealObserver.observe(el);
     });
 
-    // 3. Smooth scrolling for internal links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    // 3. Smooth scrolling for internal links (excluding open-contact-btn which toggles the modal overlay)
+    document.querySelectorAll('a[href^="#"]:not(.open-contact-btn)').forEach(anchor => {
         anchor.addEventListener('click', function (e) {
             e.preventDefault();
             const targetId = this.getAttribute('href');
@@ -177,7 +177,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     function updateActiveNav() {
         let currentSectionId = '';
-        
+
         sections.forEach(section => {
             const rect = section.getBoundingClientRect();
             // Check if the section occupies the top portion of the screen
@@ -211,8 +211,44 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. Skills Category Filtering
     const filterPills = document.querySelectorAll('.filter-pill');
     const skillItems = document.querySelectorAll('.skill-item');
+    const skillsGrid = document.querySelector('.skills-grid');
 
-    if (filterPills.length > 0 && skillItems.length > 0) {
+    if (filterPills.length > 0 && skillItems.length > 0 && skillsGrid) {
+        // Lock the grid's min-height to match the height of showing all items, preventing layout shifts
+        const lockGridHeight = () => {
+            // Save current visibility state of each item
+            const itemsState = Array.from(skillItems).map(item => ({
+                item: item,
+                isHidden: item.classList.contains('hidden')
+            }));
+
+            // Temporarily show all items and clear inline min-height to measure natural max height
+            skillItems.forEach(item => item.classList.remove('hidden'));
+            skillsGrid.style.minHeight = 'auto';
+
+            // Measure height
+            const maxHeight = skillsGrid.offsetHeight;
+
+            // Restore visibility state
+            itemsState.forEach(state => {
+                if (state.isHidden) {
+                    state.item.classList.add('hidden');
+                } else {
+                    state.item.classList.remove('hidden');
+                }
+            });
+
+            // Lock the min-height
+            skillsGrid.style.minHeight = `${maxHeight}px`;
+        };
+
+        // Initialize lock
+        lockGridHeight();
+
+        // Run again on window load and resize to ensure responsive layouts and loaded fonts/assets are correct
+        window.addEventListener('load', lockGridHeight);
+        window.addEventListener('resize', lockGridHeight);
+
         filterPills.forEach(pill => {
             pill.addEventListener('click', () => {
                 // If clicked pill is already active, do nothing
@@ -255,13 +291,13 @@ document.addEventListener('DOMContentLoaded', () => {
                         if (item.classList.contains('hidden')) {
                             item.classList.remove('hidden');
                             item.classList.add('fade-enter');
-                            
+
                             // Trigger reflow to restart animation
                             void item.offsetWidth;
-                            
+
                             item.classList.add('fade-enter-active');
                             item.classList.remove('fade-enter');
-                            
+
                             // Clean up classes after animation completes
                             setTimeout(() => {
                                 item.classList.remove('fade-enter-active');
@@ -272,4 +308,6 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
     }
+
+
 });
