@@ -27,7 +27,7 @@ My personal portfolio website to showcase my projects, skills, and journey as a 
 
 ## 📁 Projects Showcased
 
-### 1. [Xiwat (Modern Watch Store)](https://github.com/Xiao-Harsh/Xiwat)
+### 1. [Xiwat Watch Store](https://github.com/Xiao-Harsh/Xiwat)
 * **Tech:** React, JavaScript, CSS Grid, State Management
 * **About:** A high-performance e-commerce watch store frontend. I built the state management logic from scratch to handle real-time product searches, dynamic filtering, and shopping cart actions without relying on heavy external libraries.
 * **Live Demo:** [xiwat.vercel.app](https://xiwat.vercel.app/)
