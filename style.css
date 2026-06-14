@@ -1,3 +1,52 @@
+/* Local Fonts */
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url('fonts/bebas-neue.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-400.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-500.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('fonts/inter-600.ttf') format('truetype');
+    font-weight: 600;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/playfair-regular.ttf') format('truetype');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Playfair Display';
+    src: url('fonts/playfair-italic.ttf') format('truetype');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+
 :root {
     --primary-color: #000000;
     --bg-color: #f8f9fb;
@@ -2067,12 +2116,12 @@ body.dark-mode .modal-box {
     .project-modal-box {
         padding: 1.8rem 1.2rem;
     }
-    
+
     .project-modal-links {
         flex-direction: column;
         gap: 0.8rem;
     }
-    
+
     .project-modal-links a {
         width: 100%;
         text-align: center;
@@ -2096,12 +2145,10 @@ body.dark-mode .modal-box {
     left: -150%;
     width: 80%;
     height: 100%;
-    background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.05) 50%,
-        rgba(255, 255, 255, 0) 100%
-    );
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.05) 50%,
+            rgba(255, 255, 255, 0) 100%);
     transform: skewX(-20deg);
     transition: left 0.75s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
@@ -2111,12 +2158,10 @@ body.dark-mode .modal-box {
 body.dark-mode .project-card::before,
 body.dark-mode .timeline-card::before,
 body.dark-mode .about-glass-panel::before {
-    background: linear-gradient(
-        90deg,
-        rgba(255, 255, 255, 0) 0%,
-        rgba(255, 255, 255, 0.03) 50%,
-        rgba(255, 255, 255, 0) 100%
-    );
+    background: linear-gradient(90deg,
+            rgba(255, 255, 255, 0) 0%,
+            rgba(255, 255, 255, 0.03) 50%,
+            rgba(255, 255, 255, 0) 100%);
 }
 
 .project-card:hover::before,
@@ -2188,7 +2233,7 @@ body.dark-mode .skill-item::before {
         visibility: visible;
         transform: translateX(-50%) translateY(0) scale(1);
     }
-    
+
     .skill-item:hover::before {
         opacity: 1;
         visibility: visible;
@@ -2221,7 +2266,10 @@ button.menu-toggle:focus-visible,
 }
 
 @media (prefers-reduced-motion: reduce) {
-    *, ::before, ::after {
+
+    *,
+    ::before,
+    ::after {
         animation-delay: -1ms !important;
         animation-duration: 1ms !important;
         animation-iteration-count: 1 !important;
@@ -2230,6 +2278,7 @@ button.menu-toggle:focus-visible,
         transition-duration: 0s !important;
         transition-delay: 0s !important;
     }
+
     .reveal {
         opacity: 1 !important;
         visibility: visible !important;
