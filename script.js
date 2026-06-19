@@ -1,4 +1,13 @@
 document.addEventListener('DOMContentLoaded', () => {
+    // Remove preload class after page load to enable transitions
+    if (document.readyState === 'complete') {
+        document.body.classList.remove('preload');
+    } else {
+        window.addEventListener('load', () => {
+            document.body.classList.remove('preload');
+        });
+    }
+
     // 1. Custom Cursor Logic
     const cursor = document.querySelector('.cursor');
     const follower = document.querySelector('.cursor-follower');
@@ -67,8 +76,8 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, {
         root: null,
-        threshold: 0.1, // Trigger when 10% visible
-        rootMargin: "0px 0px 0px 0px"
+        threshold: 0.05, // Trigger when 5% visible
+        rootMargin: "0px 0px -50px 0px" // Offset a bit to reveal cleanly
     });
 
     revealElements.forEach(el => {
@@ -84,17 +93,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                targetElement.scrollIntoView({
-                    behavior: 'smooth'
-                });
+                if (window.innerWidth <= 900) {
+                    // Shift target top by 24px to leave exactly 24px of clear space below the sticky header
+                    const offset = 24;
+                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
+                    const targetPosition = elementPosition - offset;
+
+                    window.scrollTo({
+                        top: targetPosition,
+                        behavior: 'smooth'
+                    });
+                } else {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                }
             }
         });
     });
 
     // 4. Theme Toggle Logic
     const themeToggleBtn = document.querySelector('.theme-toggle');
-    const moonIcon = document.querySelector('.moon-icon');
-    const sunIcon = document.querySelector('.sun-icon');
 
     // Safe wrappers for localStorage to prevent security exceptions in private mode
     const getSavedTheme = () => {
@@ -113,19 +132,15 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     };
 
-    // Determine initial theme state (saved preference or system setting)
-    const systemPrefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    // Determine initial theme state (default to dark mode on first visit)
     const savedTheme = getSavedTheme();
+    const shouldBeDark = savedTheme ? savedTheme === 'dark' : true;
 
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+    if (shouldBeDark) {
         document.body.classList.add('dark-mode');
-        if (moonIcon) moonIcon.style.display = 'none';
-        if (sunIcon) sunIcon.style.display = 'block';
         if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', 'Toggle Light Mode');
     } else {
         document.body.classList.remove('dark-mode');
-        if (moonIcon) moonIcon.style.display = 'block';
-        if (sunIcon) sunIcon.style.display = 'none';
         if (themeToggleBtn) themeToggleBtn.setAttribute('aria-label', 'Toggle Dark Mode');
     }
 
@@ -137,12 +152,8 @@ document.addEventListener('DOMContentLoaded', () => {
             saveTheme(isDark ? 'dark' : 'light');
 
             if (isDark) {
-                if (moonIcon) moonIcon.style.display = 'none';
-                if (sunIcon) sunIcon.style.display = 'block';
                 themeToggleBtn.setAttribute('aria-label', 'Toggle Light Mode');
             } else {
-                if (moonIcon) moonIcon.style.display = 'block';
-                if (sunIcon) sunIcon.style.display = 'none';
                 themeToggleBtn.setAttribute('aria-label', 'Toggle Dark Mode');
             }
         });
@@ -153,6 +164,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const navMenu = document.querySelector('nav');
 
     if (menuToggleBtn && navMenu) {
+        const closeMobileMenu = () => {
+            if (navMenu.classList.contains('open')) {
+                menuToggleBtn.classList.remove('active');
+                navMenu.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        };
+
         menuToggleBtn.addEventListener('click', () => {
             menuToggleBtn.classList.toggle('active');
             navMenu.classList.toggle('open');
@@ -163,11 +182,30 @@ document.addEventListener('DOMContentLoaded', () => {
         // Close menu when clicking a link
         const navMenuLinks = navMenu.querySelectorAll('a');
         navMenuLinks.forEach(link => {
-            link.addEventListener('click', () => {
-                menuToggleBtn.classList.remove('active');
-                navMenu.classList.remove('open');
-                document.body.style.overflow = '';
-            });
+            link.addEventListener('click', closeMobileMenu);
+        });
+
+        // Close menu when clicking anywhere outside of it
+        document.addEventListener('click', (e) => {
+            if (navMenu.classList.contains('open') && 
+                !navMenu.contains(e.target) && 
+                !menuToggleBtn.contains(e.target)) {
+                closeMobileMenu();
+            }
+        });
+
+        // Close menu on pressing the Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeMobileMenu();
+            }
+        });
+
+        // Clean up mobile menu states and release scroll lock if viewport is resized to desktop sizes
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                closeMobileMenu();
+            }
         });
     }
 
@@ -220,6 +258,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const skillsGrid = document.querySelector('.skills-grid');
 
     if (filterPills.length > 0 && skillItems.length > 0 && skillsGrid) {
+        let activeFilterTimeout = null;
+        let activeCleanupTimeouts = [];
+        let hasFiltered = false;
+
+        const clearPendingFilterTransitions = () => {
+            if (activeFilterTimeout) {
+                clearTimeout(activeFilterTimeout);
+                activeFilterTimeout = null;
+            }
+            activeCleanupTimeouts.forEach(t => clearTimeout(t));
+            activeCleanupTimeouts = [];
+
+            // Reset transition classes on all items immediately to guarantee a clean starting state
+            skillItems.forEach(item => {
+                item.classList.remove('fade-exit-active', 'fade-enter', 'fade-enter-active');
+            });
+        };
+
         // Lock the grid's min-height to match the height of showing all items, preventing layout shifts
         const lockGridHeight = () => {
             // Save current visibility state of each item
@@ -256,17 +312,24 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         };
 
-        // Initialize lock
-        lockGridHeight();
-
-        // Run again on window load and resize to ensure responsive layouts and loaded fonts/assets are correct
-        window.addEventListener('load', lockGridHeight);
-        window.addEventListener('resize', debounce(lockGridHeight, 150));
+        // Run again on resize to ensure responsive layouts and loaded fonts/assets are correct (only if filtered)
+        window.addEventListener('resize', debounce(() => {
+            if (hasFiltered) {
+                lockGridHeight();
+            }
+        }, 150));
 
         filterPills.forEach(pill => {
             pill.addEventListener('click', () => {
                 // If clicked pill is already active, do nothing
                 if (pill.classList.contains('active')) return;
+
+                // Lock height on filter click to prevent layout shift during transition
+                hasFiltered = true;
+                lockGridHeight();
+
+                // Cancel running animations and flush transition classes
+                clearPendingFilterTransitions();
 
                 // Remove active class from all pills
                 filterPills.forEach(p => p.classList.remove('active'));
@@ -295,7 +358,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 });
 
                 // Wait for fade-out transition, then swap display and trigger fade-in
-                setTimeout(() => {
+                activeFilterTimeout = setTimeout(() => {
                     itemsToHide.forEach(item => {
                         item.classList.add('hidden');
                         item.classList.remove('fade-exit-active');
@@ -313,9 +376,10 @@ document.addEventListener('DOMContentLoaded', () => {
                             item.classList.remove('fade-enter');
 
                             // Clean up classes after animation completes
-                            setTimeout(() => {
+                            const cleanupTimeout = setTimeout(() => {
                                 item.classList.remove('fade-enter-active');
                             }, 350);
+                            activeCleanupTimeouts.push(cleanupTimeout);
                         }
                     });
                 }, 250); // Match style.css exit transition duration (0.25s)
@@ -400,6 +464,7 @@ document.addEventListener('DOMContentLoaded', () => {
         if (!data) return;
 
         projectModalTitle.textContent = data.title;
+        projectModalBody.classList.remove('is-scrolling');
 
         // Build features list HTML
         let featuresHtml = '';
@@ -468,12 +533,14 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         projectModalBody.innerHTML = `
-            <div class="project-modal-subtitle">${data.subtitle}</div>
-            <p class="project-modal-text">${data.description}</p>
-            ${featuresHtml}
-            ${sectionsHtml}
-            ${techHtml}
-            ${linksHtml}
+            <div class="project-modal-scroll-inner">
+                <div class="project-modal-subtitle">${data.subtitle}</div>
+                <p class="project-modal-text">${data.description}</p>
+                ${featuresHtml}
+                ${sectionsHtml}
+                ${techHtml}
+                ${linksHtml}
+            </div>
         `;
 
         const triggerBtn = document.querySelector(`.project-details-btn[data-project="${projectId}"]`);
@@ -499,6 +566,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             setTimeout(() => {
                 projectModalBody.innerHTML = '';
+                projectModalBody.classList.remove('is-scrolling');
             }, 300);
         }
     };
@@ -544,5 +612,17 @@ document.addEventListener('DOMContentLoaded', () => {
             closeProjectModal();
         }
     });
+
+    // 9. Scrollbar Visibility fading on inactivity
+    if (projectModalBody) {
+        let scrollTimeout;
+        projectModalBody.addEventListener('scroll', () => {
+            projectModalBody.classList.add('is-scrolling');
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                projectModalBody.classList.remove('is-scrolling');
+            }, 800);
+        }, { passive: true });
+    }
 
 });

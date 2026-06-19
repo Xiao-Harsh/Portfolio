@@ -10,12 +10,29 @@
     <meta name="keywords"
         content="Harsh Kumar, Software Developer, Java, React, Data Structures, Algorithms, Portfolio, Computer Science student">
 
-    <link rel="stylesheet" href="style.css?v=47">
+    <link rel="stylesheet" href="style.css?v=51">
     <link rel="preload" href="profile.png" as="image" type="image/png">
+    <link rel="preload" href="fonts/bebas-neue.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/inter-500.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/inter-600.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/playfair-italic.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="fonts/playfair-regular.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
-<body>
+<body class="dark-mode preload">
+    <script>
+        (function () {
+            try {
+                var savedTheme = localStorage.getItem('theme');
+                var shouldBeDark = savedTheme ? savedTheme === 'dark' : true;
+                if (!shouldBeDark) {
+                    document.body.classList.remove('dark-mode');
+                }
+            } catch (e) {}
+        })();
+    </script>
 
 
     <div class="gradient-bg"></div>
@@ -33,14 +50,13 @@
         </nav>
         <div class="header-actions">
             <a href="#contact" class="contact-btn">Contact</a>
-            <button class="theme-toggle" aria-label="Toggle Dark Mode">
+            <button class="theme-toggle" aria-label="Toggle Light Mode">
                 <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
                     stroke-linecap="round" stroke-linejoin="round" class="moon-icon" aria-hidden="true">
                     <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                 </svg>
                 <svg viewBox="0 0 24 24" width="20" height="20" stroke="currentColor" stroke-width="2" fill="none"
-                    stroke-linecap="round" stroke-linejoin="round" class="sun-icon" style="display: none;"
-                    aria-hidden="true">
+                    stroke-linecap="round" stroke-linejoin="round" class="sun-icon" aria-hidden="true">
                     <circle cx="12" cy="12" r="5"></circle>
                     <line x1="12" y1="1" x2="12" y2="3"></line>
                     <line x1="12" y1="21" x2="12" y2="23"></line>
@@ -509,7 +525,7 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <script src="script.js?v=51"></script>
     <script>
         // Modal Logic
         const contactModal = document.getElementById('contact-modal');
@@ -635,7 +651,7 @@
 
                         // Automatically close the modal after 2.5 seconds
                         setTimeout(() => {
-                            closeModal();
+                            closeContactModal();
                         }, 2500);
                     } else {
                         throw new Error(data.message || "Failed to submit form");
