@@ -94,7 +94,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
                 if (window.innerWidth <= 900) {
-                    // Shift target top by 24px to leave exactly 24px of clear space below the sticky header
                     const offset = 24;
                     const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
                     const targetPosition = elementPosition - offset;
@@ -255,134 +254,26 @@ document.addEventListener('DOMContentLoaded', () => {
     // 7. Skills Category Filtering
     const filterPills = document.querySelectorAll('.filter-pill');
     const skillItems = document.querySelectorAll('.skill-item');
-    const skillsGrid = document.querySelector('.skills-grid');
 
-    if (filterPills.length > 0 && skillItems.length > 0 && skillsGrid) {
-        let activeFilterTimeout = null;
-        let activeCleanupTimeouts = [];
-        let hasFiltered = false;
-
-        const clearPendingFilterTransitions = () => {
-            if (activeFilterTimeout) {
-                clearTimeout(activeFilterTimeout);
-                activeFilterTimeout = null;
-            }
-            activeCleanupTimeouts.forEach(t => clearTimeout(t));
-            activeCleanupTimeouts = [];
-
-            // Reset transition classes on all items immediately to guarantee a clean starting state
-            skillItems.forEach(item => {
-                item.classList.remove('fade-exit-active', 'fade-enter', 'fade-enter-active');
-            });
-        };
-
-        // Lock the grid's min-height to match the height of showing all items, preventing layout shifts
-        const lockGridHeight = () => {
-            // Save current visibility state of each item
-            const itemsState = Array.from(skillItems).map(item => ({
-                item: item,
-                isHidden: item.classList.contains('hidden')
-            }));
-
-            // Temporarily show all items and clear inline min-height to measure natural max height
-            skillItems.forEach(item => item.classList.remove('hidden'));
-            skillsGrid.style.minHeight = 'auto';
-
-            // Measure height
-            const maxHeight = skillsGrid.offsetHeight;
-
-            // Restore visibility state
-            itemsState.forEach(state => {
-                if (state.isHidden) {
-                    state.item.classList.add('hidden');
-                } else {
-                    state.item.classList.remove('hidden');
-                }
-            });
-
-            // Lock the min-height
-            skillsGrid.style.minHeight = `${maxHeight}px`;
-        };
-
-        const debounce = (func, delay) => {
-            let timer;
-            return (...args) => {
-                clearTimeout(timer);
-                timer = setTimeout(() => func.apply(this, args), delay);
-            };
-        };
-
-        // Run again on resize to ensure responsive layouts and loaded fonts/assets are correct (only if filtered)
-        window.addEventListener('resize', debounce(() => {
-            if (hasFiltered) {
-                lockGridHeight();
-            }
-        }, 150));
-
+    if (filterPills.length > 0 && skillItems.length > 0) {
         filterPills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                // If clicked pill is already active, do nothing
+            pill.addEventListener('click', (e) => {
+                e.preventDefault();
                 if (pill.classList.contains('active')) return;
 
-                // Lock height on filter click to prevent layout shift during transition
-                hasFiltered = true;
-                lockGridHeight();
-
-                // Cancel running animations and flush transition classes
-                clearPendingFilterTransitions();
-
-                // Remove active class from all pills
                 filterPills.forEach(p => p.classList.remove('active'));
-                // Add active class to clicked pill
                 pill.classList.add('active');
 
                 const category = pill.getAttribute('data-category');
 
-                const itemsToHide = [];
-                const itemsToShow = [];
-
                 skillItems.forEach(item => {
                     const itemCat = item.getAttribute('data-category');
                     if (category === 'all' || itemCat === category) {
-                        itemsToShow.push(item);
+                        item.classList.remove('hidden');
                     } else {
-                        itemsToHide.push(item);
-                    }
-                });
-
-                // Phase 1: Fade out items that don't match
-                itemsToHide.forEach(item => {
-                    if (!item.classList.contains('hidden')) {
-                        item.classList.add('fade-exit-active');
-                    }
-                });
-
-                // Wait for fade-out transition, then swap display and trigger fade-in
-                activeFilterTimeout = setTimeout(() => {
-                    itemsToHide.forEach(item => {
                         item.classList.add('hidden');
-                        item.classList.remove('fade-exit-active');
-                    });
-
-                    itemsToShow.forEach(item => {
-                        if (item.classList.contains('hidden')) {
-                            item.classList.remove('hidden');
-                            item.classList.add('fade-enter');
-
-                            // Trigger reflow to restart animation
-                            void item.offsetWidth;
-
-                            item.classList.add('fade-enter-active');
-                            item.classList.remove('fade-enter');
-
-                            // Clean up classes after animation completes
-                            const cleanupTimeout = setTimeout(() => {
-                                item.classList.remove('fade-enter-active');
-                            }, 350);
-                            activeCleanupTimeouts.push(cleanupTimeout);
-                        }
-                    });
-                }, 250); // Match style.css exit transition duration (0.25s)
+                    }
+                });
             });
         });
     }
@@ -448,6 +339,36 @@ document.addEventListener('DOMContentLoaded', () => {
             tech: ["Java", "SQL", "OOP", "Data Structures", "Garbage Collection"],
             liveLink: null,
             githubLink: "https://github.com/Xiao-Harsh/RetroKey"
+        },
+        sonexa: {
+            title: "Sonexa",
+            subtitle: "Decentralized Music Player & High-Performance Audio Gateway",
+            description: "A modern web-based music streaming platform built on the Audius Music Protocol, integrating custom node failover routing and low-latency Redis caching.",
+            sections: [
+                {
+                    title: "Key Features & Capabilities",
+                    content: "Delivers decentralized audio playback with secure JWT user authentication, dynamic playlist queueing, real-time track search, and automatic discovery node routing."
+                },
+                {
+                    title: "Engineering & Architecture Highlights",
+                    content: "Built a background routing service in Java that regularly pings Audius network bootstrap nodes, caches active discovery instances in Redis, and dynamically reroutes API requests to bypass offline or slow nodes."
+                },
+                {
+                    title: "Optimization & Performance",
+                    content: "Utilized Redis caching for search queries, trending charts, and track details to reduce external API requests and deliver near-instantaneous audio playback start times."
+                }
+            ],
+            features: [
+                "Audius Protocol Audio Streaming",
+                "Automated Node Failover Routing",
+                "Redis Query & Chart Caching",
+                "Expandable Animated Music Player",
+                "Spring Security & JWT Authentication",
+                "Zustand State Synchronization"
+            ],
+            tech: ["React 19", "TypeScript", "Spring Boot", "Redis", "MySQL", "Tailwind CSS"],
+            liveLink: "https://sonexamusic.vercel.app/",
+            githubLink: "https://github.com/Xiao-Harsh/Sonexa"
         }
     };
 

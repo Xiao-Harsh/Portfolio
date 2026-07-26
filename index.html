@@ -10,15 +10,15 @@
     <meta name="keywords"
         content="Harsh Kumar, Software Developer, Java, React, Data Structures, Algorithms, Portfolio, Computer Science student">
 
-    <link rel="stylesheet" href="style.css?v=51">
-    <link rel="preload" href="profile.png" as="image" type="image/png">
-    <link rel="preload" href="fonts/bebas-neue.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="fonts/inter-500.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="fonts/inter-600.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="fonts/playfair-italic.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="fonts/playfair-regular.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="assets/css/style.css?v=66">
+    <link rel="preload" href="assets/images/profile.png" as="image" type="image/png">
+    <link rel="preload" href="assets/fonts/bebas-neue.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-500.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/fonts/inter-600.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/fonts/playfair-italic.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="assets/fonts/playfair-regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="icon" type="image/png" href="assets/images/ico.png">
 </head>
 
 <body class="dark-mode preload">
@@ -95,7 +95,7 @@
             </div>
 
             <div class="profile-container">
-                <img src="profile.png" alt="Harsh" class="profile-img" width="2556" height="4108">
+                <img src="assets/images/profile.png" alt="Harsh" class="profile-img" width="2556" height="4108">
                 <div class="fade-bottom"></div>
             </div>
 
@@ -127,7 +127,7 @@
                         </p>
                     </div>
                     <div class="about-illustration-container">
-                        <img src="abtt.svg" alt="Developer Animation" class="about-illustration" width="950"
+                        <img src="assets/images/abtt.svg" alt="Developer Animation" class="about-illustration" width="950"
                             height="847" loading="lazy">
                     </div>
                 </div>
@@ -314,7 +314,7 @@
                     <div class="project-card reveal slide-up">
                         <div class="project-img-wrapper">
                             <a href="https://xiwat.vercel.app/" target="_blank" rel="noopener noreferrer">
-                                <img src="xiwatt.png" alt="Xiwat Watch Store" class="project-img" width="1448"
+                                <img src="assets/images/xiwatt.png" alt="Xiwat Watch Store" class="project-img" width="1448"
                                     height="1086" loading="lazy">
                             </a>
                         </div>
@@ -364,7 +364,7 @@
                     <div class="project-card reveal slide-up" style="--delay: 0.2s">
                         <div class="project-img-wrapper">
                             <a href="https://github.com/Xiao-Harsh/RetroKey" target="_blank" rel="noopener noreferrer">
-                                <img src="retroo.png" alt="Retrokey" class="project-img" width="1448" height="1086"
+                                <img src="assets/images/retroo.png" alt="Retrokey" class="project-img" width="1448" height="1086"
                                     loading="lazy">
                             </a>
                         </div>
@@ -395,6 +395,53 @@
                                     </svg>
                                 </button>
                                 <a href="https://github.com/Xiao-Harsh/RetroKey" target="_blank"
+                                    rel="noopener noreferrer"><span>Source Code</span> <svg viewBox="0 0 24 24"
+                                        width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
+                                        stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.4rem;"
+                                        aria-hidden="true">
+                                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                                        <polyline points="7 7 17 7 17 17"></polyline>
+                                    </svg></a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="project-card reveal slide-up" style="--delay: 0.4s">
+                        <div class="project-img-wrapper">
+                            <a href="https://sonexamusic.vercel.app/" target="_blank" rel="noopener noreferrer">
+                                <img src="assets/images/sonexa.png" alt="Sonexa Decentralized Music Player" class="project-img" width="1448" height="1086"
+                                    loading="lazy">
+                            </a>
+                        </div>
+                        <div class="project-info">
+                            <h3>Sonexa</h3>
+                            <p class="project-desc">A modern, decentralized music player built with React 19, Spring Boot 3, and Redis, powered by the Audius Protocol. Features dynamic node failover routing and low-latency query caching for uninterrupted audio streaming.</p>
+                            <div class="tech-stack">
+                                <span class="tech-pill">React</span>
+                                <span class="tech-pill">Spring Boot</span>
+                                <span class="tech-pill">Redis</span>
+                                <span class="tech-pill">Audius Protocol</span>
+                            </div>
+                            <div class="project-links">
+                                <button class="project-details-btn" data-project="sonexa" aria-haspopup="dialog"
+                                    aria-controls="project-modal" aria-expanded="false"
+                                    aria-label="View details for Sonexa">
+                                    <span>Details</span>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor"
+                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        style="margin-left: 0.4rem;" aria-hidden="true">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                                    </svg>
+                                </button>
+                                <a href="https://sonexamusic.vercel.app/" target="_blank" rel="noopener noreferrer"><span>View Live</span>
+                                    <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor"
+                                        stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"
+                                        style="margin-left: 0.4rem;" aria-hidden="true">
+                                        <line x1="7" y1="17" x2="17" y2="7"></line>
+                                        <polyline points="7 7 17 7 17 17"></polyline>
+                                    </svg></a>
+                                <a href="https://github.com/Xiao-Harsh/Sonexa" target="_blank"
                                     rel="noopener noreferrer"><span>Source Code</span> <svg viewBox="0 0 24 24"
                                         width="16" height="16" stroke="currentColor" stroke-width="2" fill="none"
                                         stroke-linecap="round" stroke-linejoin="round" style="margin-left: 0.4rem;"
@@ -447,7 +494,7 @@
                             <span>Instagram</span>
                         </a>
                         <a href="https://codolio.com/profile/xiaoHarsh" target="_blank" rel="noopener noreferrer">
-                            <img src="codolio.svg" alt="Codolio" width="118" height="93">
+                            <img src="assets/images/codolio.svg" alt="Codolio" width="118" height="93">
                             <span>Codolio</span>
                         </a>
                         <a href="https://x.com/imharshsingh_" target="_blank" rel="noopener noreferrer">
@@ -525,7 +572,7 @@
         </div>
     </div>
 
-    <script src="script.js?v=51"></script>
+    <script src="assets/js/script.js?v=60"></script>
     <script>
         // Modal Logic
         const contactModal = document.getElementById('contact-modal');
