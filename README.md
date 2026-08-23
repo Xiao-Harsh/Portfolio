@@ -52,9 +52,9 @@ My personal portfolio website to showcase my projects, skills, and journey as a 
 * **Govt. Boys Senior Secondary School, Rajouri Garden, New Delhi** – 10th Class (Completed 2021).
 
 ### 📊 Stats & Journey Metrics
-* **Coding Experience:** 2+ Years of coding and hands-on software development.
-* **Hackathons:** Participated in 5+ Hackathons building software prototypes and collaborating in teams.
+* **Academic CGPA:** 9.14 CGPA in B.Tech Computer Science & Engineering.
 * **Problem Solving:** 170+ DSA Problems Solved across competitive coding platforms.
+* **LeetCode Streak:** 100+ Days LeetCode Problem Solving Streak.
 * **Active Involvements:** Member of DevCircle (Tech Council) & Business Club (Student Council).
 
 ---

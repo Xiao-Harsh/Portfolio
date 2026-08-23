@@ -58,7 +58,14 @@
 }
 
 /* Touch Action Optimization for Instant Click Response */
-a, button, input, textarea, .filter-pill, .skill-item, .project-card, .timeline-card {
+a,
+button,
+input,
+textarea,
+.filter-pill,
+.skill-item,
+.project-card,
+.timeline-card {
     touch-action: manipulation;
 }
 
@@ -340,21 +347,23 @@ nav a.active::after {
     font-weight: 500;
     font-size: 0.9rem;
     border: 1px solid transparent;
-    transition: transform var(--transition-fast), box-shadow var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast);
+    transition: box-shadow var(--transition-fast), background-color var(--transition-fast), color var(--transition-fast), border-color var(--transition-fast);
     box-shadow: var(--shadow-sm);
     cursor: pointer;
+    transform: none !important;
 }
 
 @media (hover: hover) and (min-width: 901px) {
     .contact-btn:hover {
-        transform: translateY(-2px);
+        transform: none !important;
         box-shadow: var(--shadow-md);
+        opacity: 0.92;
     }
+
     .contact-btn:active {
-        transform: translateY(-0.5px);
+        transform: none !important;
     }
 }
-
 
 .theme-toggle {
     background: none;
@@ -368,15 +377,17 @@ nav a.active::after {
     border-radius: 50%;
     background-color: var(--card-bg);
     border: 1px solid var(--border-color);
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
+    transform: none !important;
 }
 
 @media (hover: hover) and (min-width: 901px) {
     .theme-toggle:hover {
         background-color: var(--primary-color);
         color: var(--btn-text);
-        transform: translateY(-2px);
+        transform: none !important;
+        box-shadow: var(--shadow-sm);
     }
 }
 
@@ -384,12 +395,15 @@ nav a.active::after {
 .theme-toggle .moon-icon {
     display: block;
 }
+
 .theme-toggle .sun-icon {
     display: none;
 }
+
 body.dark-mode .theme-toggle .moon-icon {
     display: none;
 }
+
 body.dark-mode .theme-toggle .sun-icon {
     display: block;
 }
@@ -593,7 +607,8 @@ main {
     font-weight: 400;
     letter-spacing: -0.015em;
     color: var(--text-color-medium);
-    max-width: 50ch; /* Constrain for comfortable line length and breathing room */
+    max-width: 50ch;
+    /* Constrain for comfortable line length and breathing room */
     transition: color 0.4s var(--ease-expo);
 }
 
@@ -611,6 +626,7 @@ main {
     display: flex;
     align-items: center;
     justify-content: center;
+    scroll-margin-top: 70px;
 }
 
 /* About Grid & Column Layout */
@@ -971,19 +987,51 @@ body.dark-mode .skill-item img.invert-dark {
     margin: 3rem auto;
 }
 
+/* CONTACT SECTION (Full Viewport Fit - All Elements Visible at Once) */
 /* CONTACT SECTION */
-.contact-links {
-    margin-top: 5rem;
+.contact {
+    min-height: 100dvh;
+    padding: calc(75px + 1vh) max(1.5rem, 5vw) clamp(1.5rem, 2.5vh, 2.5rem) max(1.5rem, 5vw) !important;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact .section-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    justify-content: center;
+}
+
+.contact .section-title {
+    font-size: clamp(3.2rem, 5.8vw, 4.8rem);
+    margin-bottom: 1.1rem;
+    line-height: 1.1;
+}
+
+.contact .large-text {
+    font-size: clamp(1.25rem, 2vw, 1.6rem);
+    line-height: 1.5;
+    margin-bottom: 2.2rem;
+    max-width: 50ch;
+}
+
+.contact-links {
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2.2rem;
 }
 
 .email-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 1rem;
+    gap: 0.65rem;
     position: relative;
 }
 
@@ -991,14 +1039,14 @@ body.dark-mode .skill-item img.invert-dark {
     position: relative;
     display: inline-flex;
     align-items: center;
-    gap: 0.6rem;
+    gap: 0.65rem;
     background: var(--apple-glass-bg);
     backdrop-filter: var(--apple-glass-blur);
     -webkit-backdrop-filter: var(--apple-glass-blur);
     border: var(--apple-glass-border);
-    padding: 0.6rem 1.2rem;
+    padding: 0.52rem 1.2rem;
     border-radius: 50px;
-    font-size: 0.8rem;
+    font-size: 0.85rem;
     font-weight: 600;
     color: var(--text-color);
     letter-spacing: 0.05em;
@@ -1053,13 +1101,17 @@ body.dark-mode .email-hint::after {
 
 .big-link {
     font-family: var(--font-display);
-    font-size: clamp(2rem, 6vw, 6rem);
+    font-size: clamp(2.8rem, 6.2vw, 6.6rem);
+    line-height: 1;
+    letter-spacing: -0.01em;
     transition: color 0.3s;
     color: var(--text-color);
-    word-break: break-word;
+    white-space: nowrap;
+    word-break: normal;
     position: relative;
     display: inline-block;
     padding-bottom: 0.2rem;
+    max-width: 100%;
 }
 
 .big-link::after {
@@ -1068,7 +1120,7 @@ body.dark-mode .email-hint::after {
     left: 0;
     bottom: 0;
     width: 100%;
-    height: 2px;
+    height: 3px;
     background-color: var(--accent-color);
     transform: scaleX(0);
     transform-origin: left;
@@ -1083,18 +1135,22 @@ body.dark-mode .email-hint::after {
     transform: scaleX(1);
 }
 
-.social-links {
-    display: flex;
-    gap: 3rem;
-    margin-top: 2rem;
-    flex-wrap: wrap;
-    justify-content: flex-start;
+/* Dark mode handling for icons */
+body.dark-mode .invert-dark {
+    filter: invert(1);
 }
 
-@media (max-width: 600px) {
-    .social-links {
-        gap: 1.5rem;
-    }
+/* =========================================================
+   SOCIAL LINKS
+   ========================================================= */
+
+.social-links {
+    display: flex;
+    gap: clamp(2.2rem, 4.5vw, 5rem);
+    margin-top: 0;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 .social-links a {
@@ -1102,44 +1158,54 @@ body.dark-mode .email-hint::after {
     flex-direction: column;
     align-items: center;
     text-align: center;
-    gap: 1rem;
-    font-size: 1.1rem;
-    font-weight: 500;
+    gap: 0.55rem;
+    font-size: 0.9rem;
+    font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
+    letter-spacing: 0.08em;
     position: relative;
     color: var(--text-color);
     text-decoration: none;
+    transition: color 0.25s ease, transform 0.25s ease;
 }
 
-.social-links a img,
-.social-links a svg {
-    width: 28px;
-    height: 28px;
+.social-links a svg,
+.social-links a img {
+    width: 33px;
+    height: 33px;
     object-fit: contain;
-    transition: transform 0.3s ease;
+    display: block;
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.social-links a:hover img,
-.social-links a:hover svg {
-    transform: translateY(-5px);
+.social-links a .github-svg {
+    fill: #181717;
+}
+
+body.dark-mode .social-links a .github-svg {
+    fill: #ffffff;
+}
+
+.social-links a:hover {
+    color: var(--text-color);
+    transform: translateY(-4px);
+}
+
+.social-links a:hover svg,
+.social-links a:hover img {
+    transform: scale(1.18);
 }
 
 .social-links a::after {
     content: '';
     position: absolute;
-    bottom: -5px;
+    bottom: -6px;
     left: 50%;
     transform: translateX(-50%);
     width: 0;
     height: 2px;
     background: var(--text-color);
     transition: width 0.3s ease;
-}
-
-/* Dark mode handling for icons */
-body.dark-mode .invert-dark {
-    filter: invert(1);
 }
 
 .social-links a:hover::after {
@@ -1553,6 +1619,7 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
 }
 
 @media (max-width: 900px) {
+
     .about,
     .skills,
     .projects,
@@ -1566,11 +1633,16 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
     :root {
         --apple-glass-blur: blur(10px) saturate(180%) brightness(101%);
     }
+
     body.dark-mode {
         --apple-glass-blur: blur(10px) saturate(180%) brightness(95%);
     }
 
-    #about, #skills, #journey, #works, #contact {
+    #about,
+    #skills,
+    #journey,
+    #works,
+    #contact {
         scroll-margin-top: 24px;
     }
 
@@ -1720,12 +1792,43 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
     }
 
     .contact {
-        padding: 4rem 1.5rem 3rem 1.5rem;
+        min-height: 100dvh;
+        height: 100dvh;
+        max-height: 100dvh;
+        padding: calc(70px + 1.2vh) 1.5rem 2vh 1.5rem !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-sizing: border-box;
+        overflow: hidden;
+    }
+
+    .contact.section-padding {
+        padding: calc(70px + 1.2vh) 1.5rem 2vh 1.5rem !important;
+    }
+
+    .contact .section-container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 100%;
+        max-height: 100%;
+    }
+
+    .contact .section-title {
+        font-size: clamp(2.2rem, 7.5vw, 2.7rem);
+        margin-bottom: 0.7rem;
+    }
+
+    .contact .large-text {
+        font-size: clamp(1rem, 3.6vw, 1.2rem);
+        line-height: 1.45;
+        margin-bottom: 1.5rem;
     }
 
     .contact-links {
-        margin-top: 2rem;
-        gap: 2rem;
+        margin-top: 0;
+        gap: 1.6rem;
         width: 100%;
     }
 
@@ -1733,11 +1836,13 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
         align-items: flex-start;
         text-align: left;
         width: 100%;
+        gap: 0.5rem;
     }
 
     .email-hint {
         margin: 0;
-        font-size: 0.8rem;
+        font-size: 0.75rem;
+        padding: 0.4rem 0.95rem;
     }
 
     .email-hint::after {
@@ -1746,46 +1851,42 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
     }
 
     .big-link {
-        font-size: clamp(1.9rem, 7.9vw, 3.5rem);
+        font-size: clamp(1.8rem, 7.4vw, 2.8rem);
         line-height: 1;
         letter-spacing: -0.015em;
         white-space: nowrap;
         word-break: normal;
         display: inline-block;
         max-width: 100%;
-        margin-top: 0.2rem;
-    }
-
-    .large-text {
-        font-size: 1.2rem;
+        margin-top: 0.1rem;
     }
 
     .social-links {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
-        gap: 2rem 0.8rem;
+        gap: 1.4rem 0.8rem;
         justify-items: center;
         align-items: center;
         width: 100%;
-        max-width: 440px;
-        margin: 2rem auto 0 0;
+        max-width: 400px;
+        margin: 0 auto;
     }
 
     .social-links a {
         width: 100%;
-        font-size: 0.82rem;
-        gap: 0.6rem;
+        font-size: 0.8rem;
+        gap: 0.4rem;
     }
 
     .social-links a img,
     .social-links a svg {
-        width: 32px;
-        height: 32px;
+        width: 27px;
+        height: 27px;
     }
 
     .projects-grid {
         grid-template-columns: 1fr;
-        margin-bottom: 12rem;
+        margin-bottom: 3rem;
     }
 
     .skills-grid {
@@ -2253,6 +2354,7 @@ body.dark-mode .project-modal-box {
     margin-bottom: 0;
     flex-shrink: 0;
 }
+
 .project-modal-body {
     flex: 1;
     overflow-y: auto;

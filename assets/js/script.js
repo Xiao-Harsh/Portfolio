@@ -91,22 +91,20 @@ document.addEventListener('DOMContentLoaded', () => {
             const targetId = this.getAttribute('href');
             if (targetId === '#') return;
 
+            // Immediately clear/update active state on nav links
+            if (targetId === '#contact') {
+                navLinks.forEach(link => link.classList.remove('active'));
+            } else {
+                navLinks.forEach(link => {
+                    link.classList.toggle('active', link.getAttribute('href') === targetId);
+                });
+            }
+
             const targetElement = document.querySelector(targetId);
             if (targetElement) {
-                if (window.innerWidth <= 900) {
-                    const offset = 24;
-                    const elementPosition = targetElement.getBoundingClientRect().top + window.pageYOffset;
-                    const targetPosition = elementPosition - offset;
-
-                    window.scrollTo({
-                        top: targetPosition,
-                        behavior: 'smooth'
-                    });
-                } else {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth'
-                    });
-                }
+                targetElement.scrollIntoView({
+                    behavior: 'smooth'
+                });
             }
         });
     });
@@ -208,48 +206,44 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 6. Navigation Active State on Scroll (ScrollSpy using IntersectionObserver)
+    // 6. Navigation Active State on Scroll (ScrollSpy)
     const sections = document.querySelectorAll('section[id]');
     const navLinks = document.querySelectorAll('nav a');
+    const siteHeader = document.querySelector('header');
 
-    const navObserverOptions = {
-        root: null,
-        rootMargin: '-20% 0px -60% 0px',
-        threshold: 0
-    };
+    const updateActiveNav = () => {
+        const headerHeight = siteHeader ? siteHeader.offsetHeight : 80;
+        const scrollPosition = window.pageYOffset + headerHeight + 50;
+        const isNearBottom = (window.innerHeight + window.pageYOffset) >= (document.documentElement.scrollHeight - 100);
 
-    const navObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                const currentSectionId = entry.target.getAttribute('id');
-                navLinks.forEach(link => {
-                    link.classList.remove('active');
-                    if (currentSectionId && currentSectionId !== 'contact') {
-                        if (link.getAttribute('href') === `#${currentSectionId}`) {
-                            link.classList.add('active');
-                        }
-                    }
-                });
+        let currentSectionId = '';
+
+        if (isNearBottom) {
+            currentSectionId = 'contact';
+        } else if (window.pageYOffset < 100) {
+            currentSectionId = 'home';
+        } else {
+            sections.forEach(section => {
+                const top = section.offsetTop;
+                const height = section.offsetHeight;
+                if (scrollPosition >= top && scrollPosition < top + height) {
+                    currentSectionId = section.getAttribute('id');
+                }
+            });
+        }
+
+        // Update active class on nav links
+        navLinks.forEach(link => {
+            if (currentSectionId === 'contact' || !currentSectionId) {
+                link.classList.remove('active');
+            } else {
+                link.classList.toggle('active', link.getAttribute('href') === `#${currentSectionId}`);
             }
         });
-    }, navObserverOptions);
+    };
 
-    sections.forEach(section => {
-        navObserver.observe(section);
-    });
-
-    // Fallback for bottom of the page scrolling
-    window.addEventListener('scroll', () => {
-        if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight - 50) {
-            const lastSection = sections[sections.length - 1];
-            if (lastSection) {
-                const lastId = lastSection.getAttribute('id');
-                navLinks.forEach(link => {
-                    link.classList.toggle('active', link.getAttribute('href') === `#${lastId}`);
-                });
-            }
-        }
-    }, { passive: true });
+    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    updateActiveNav();
 
     // 7. Skills Category Filtering
     const filterPills = document.querySelectorAll('.filter-pill');
