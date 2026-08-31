@@ -61,20 +61,21 @@ My personal portfolio website to showcase my projects, skills, and journey as a 
 
 ## 💻 How to Run Locally
 
-Since this is a vanilla web project, you can run it without any package installations:
+Since this is a vanilla web project, you can run it without any manual dependency installations:
 
-1. Clone the repository:
+1. **Clone the repository:**
    ```bash
    git clone https://github.com/Xiao-Harsh/Portfolio.git
    ```
-2. Go to the project directory:
+2. **Go to the project directory:**
    ```bash
    cd Portfolio
    ```
-3. Open `index.html` directly in your browser, or launch a local dev server:
+3. **Start a local dev server with Node / NPX:**
    ```bash
    npx serve
    ```
+   *Alternatively, you can open `index.html` directly in any web browser or use VS Code Live Server.*
 
 ---
 

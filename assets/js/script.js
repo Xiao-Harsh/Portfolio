@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 1. Custom Cursor Logic
+    // Common DOM Elements
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('nav a');
+    const siteHeader = document.querySelector('header');
+
+    // 1. Custom Cursor Logic (Optimized for idle CPU and GPU acceleration)
     const cursor = document.querySelector('.cursor');
     const follower = document.querySelector('.cursor-follower');
 
@@ -18,18 +23,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         let posX = 0, posY = 0;
         let mouseX = 0, mouseY = 0;
+        let isRunning = false;
+        let rafId = null;
 
         // GPU-accelerated follower animation using requestAnimationFrame
         const updateCursor = () => {
+            const dx = mouseX - posX;
+            const dy = mouseY - posY;
+
             // Linear interpolation for smooth trailing
-            posX += (mouseX - posX) * 0.15;
-            posY += (mouseY - posY) * 0.15;
+            posX += dx * 0.15;
+            posY += dy * 0.15;
 
             // Use transform: translate3d for GPU acceleration (avoids layout thrashing)
-            follower.style.transform = `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%)`;
-            cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
+            if (follower) follower.style.transform = `translate3d(${posX}px, ${posY}px, 0) translate(-50%, -50%)`;
+            if (cursor) cursor.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%)`;
 
-            requestAnimationFrame(updateCursor);
+            // Sleep the animation loop when follower has settled
+            if (Math.abs(dx) < 0.05 && Math.abs(dy) < 0.05) {
+                posX = mouseX;
+                posY = mouseY;
+                isRunning = false;
+                return;
+            }
+
+            rafId = requestAnimationFrame(updateCursor);
+        };
+
+        const startCursorLoop = () => {
+            if (!isRunning && !document.hidden) {
+                isRunning = true;
+                rafId = requestAnimationFrame(updateCursor);
+            }
         };
 
         let firstMove = true;
@@ -41,7 +66,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 posX = mouseX;
                 posY = mouseY;
                 firstMove = false;
-                updateCursor(); // Boot loop on first mouse movement to save idle CPU
+            }
+
+            startCursorLoop();
+        }, { passive: true });
+
+        // Pause cursor loop when tab is hidden to save CPU/battery
+        document.addEventListener('visibilitychange', () => {
+            if (document.hidden) {
+                isRunning = false;
+                if (rafId) cancelAnimationFrame(rafId);
+            } else if (!firstMove) {
+                startCursorLoop();
             }
         });
 
@@ -50,13 +86,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (e.target.closest('a, button, input, textarea, .availability-badge, .skill-item')) {
                 document.body.classList.add('cursor-hover');
             }
-        });
+        }, { passive: true });
 
         document.addEventListener('mouseout', (e) => {
             if (e.target.closest('a, button, input, textarea, .availability-badge, .skill-item')) {
                 document.body.classList.remove('cursor-hover');
             }
-        });
+        }, { passive: true });
     } else {
         // Hide cursor elements completely on touch devices
         if (cursor) cursor.style.display = 'none';
@@ -70,8 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
         entries.forEach(entry => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('active');
-                // Optional: stop observing once revealed
-                // observer.unobserve(entry.target);
+                observer.unobserve(entry.target);
             }
         });
     }, {
@@ -98,6 +133,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 navLinks.forEach(link => {
                     link.classList.toggle('active', link.getAttribute('href') === targetId);
                 });
+            }
+
+            if (targetId === '#home') {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+                return;
+            }
+
+            if (targetId === '#contact') {
+                window.scrollTo({
+                    top: document.documentElement.scrollHeight,
+                    behavior: 'smooth'
+                });
+                return;
             }
 
             const targetElement = document.querySelector(targetId);
@@ -203,24 +254,25 @@ document.addEventListener('DOMContentLoaded', () => {
             if (window.innerWidth > 900) {
                 closeMobileMenu();
             }
-        });
+        }, { passive: true });
     }
 
-    // 6. Navigation Active State on Scroll (ScrollSpy)
-    const sections = document.querySelectorAll('section[id]');
-    const navLinks = document.querySelectorAll('nav a');
-    const siteHeader = document.querySelector('header');
+    // 6. Navigation Active State on Scroll (ScrollSpy with rAF throttling)
+    let isScrollTicking = false;
 
     const updateActiveNav = () => {
         const headerHeight = siteHeader ? siteHeader.offsetHeight : 80;
-        const scrollPosition = window.pageYOffset + headerHeight + 50;
-        const isNearBottom = (window.innerHeight + window.pageYOffset) >= (document.documentElement.scrollHeight - 100);
+        const scrollY = window.pageYOffset || document.documentElement.scrollTop;
+        const scrollPosition = scrollY + headerHeight + 50;
+        const docHeight = document.documentElement.scrollHeight;
+        const winHeight = window.innerHeight;
+        const isNearBottom = (winHeight + scrollY) >= (docHeight - 100);
 
         let currentSectionId = '';
 
         if (isNearBottom) {
             currentSectionId = 'contact';
-        } else if (window.pageYOffset < 100) {
+        } else if (scrollY < 100) {
             currentSectionId = 'home';
         } else {
             sections.forEach(section => {
@@ -240,9 +292,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 link.classList.toggle('active', link.getAttribute('href') === `#${currentSectionId}`);
             }
         });
+
+        isScrollTicking = false;
     };
 
-    window.addEventListener('scroll', updateActiveNav, { passive: true });
+    const onScroll = () => {
+        if (!isScrollTicking) {
+            isScrollTicking = true;
+            requestAnimationFrame(updateActiveNav);
+        }
+    };
+
+    window.addEventListener('scroll', onScroll, { passive: true });
     updateActiveNav();
 
     // 7. Skills Category Filtering
