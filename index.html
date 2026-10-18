@@ -10,14 +10,35 @@
     <meta name="keywords"
         content="Harsh Kumar, Software Developer, Java, React, Data Structures, Algorithms, Portfolio, Computer Science student">
 
+    <meta name="author" content="Harsh Kumar">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://xiao-harsh.github.io/Portfolio/">
+
+    <!-- Open Graph (LinkedIn, WhatsApp, Facebook, Discord, Slack) -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://xiao-harsh.github.io/Portfolio/">
+    <meta property="og:title" content="Harsh Kumar | Software Developer Portfolio">
+    <meta property="og:description"
+        content="Personal portfolio of Harsh Kumar, a B.Tech Computer Science student and Software Developer showcasing software engineering projects, technical stats, and skills.">
+    <meta property="og:image" content="https://xiao-harsh.github.io/Portfolio/assets/images/share.png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Harsh Kumar Portfolio">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Cards (X / Twitter) -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@imharshsingh_">
+    <meta name="twitter:creator" content="@imharshsingh_">
+    <meta name="twitter:title" content="Harsh Kumar | Software Developer Portfolio">
+    <meta name="twitter:description"
+        content="Personal portfolio of Harsh Kumar, a B.Tech Computer Science student and Software Developer showcasing software engineering projects, technical stats, and skills.">
+    <meta name="twitter:image" content="https://xiao-harsh.github.io/Portfolio/assets/images/share.png">
+
     <link rel="stylesheet" href="assets/css/style.css?v=70">
     <link rel="preload" href="assets/images/profile.png" as="image" type="image/png">
     <link rel="preload" href="assets/fonts/bebas-neue.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="assets/fonts/inter-400.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="assets/fonts/inter-500.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="assets/fonts/inter-600.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="assets/fonts/playfair-italic.ttf" as="font" type="font/ttf" crossorigin>
-    <link rel="preload" href="assets/fonts/playfair-regular.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="icon" type="image/png" href="favicon.png">
 </head>
 
@@ -577,149 +598,7 @@
         </div>
     </div>
 
-    <script src="assets/js/script.js?v=71"></script>
-    <script>
-        // Modal Logic
-        const contactModal = document.getElementById('contact-modal');
-        const openModalBtns = document.querySelectorAll('.open-contact-btn');
-        const closeModalBtn = document.querySelector('.close-modal');
-        const contactForm = document.getElementById('contact-form');
-        const modalHeader = document.getElementById('modal-header');
-        const successMessage = document.getElementById('success-message');
-        let contactTriggerElement = null;
-
-        // Function to reset the modal to its original state
-        const resetModal = () => {
-            contactForm.reset();
-            contactForm.style.display = 'flex';
-            modalHeader.style.display = 'flex';
-            successMessage.style.display = 'none';
-        };
-
-        const openContactModal = () => {
-            contactTriggerElement = document.activeElement;
-            contactModal.classList.add('active');
-            document.body.style.overflow = 'hidden';
-            setTimeout(() => {
-                if (closeModalBtn) closeModalBtn.focus();
-            }, 100);
-        };
-
-        const closeContactModal = () => {
-            contactModal.classList.remove('active');
-            document.body.style.overflow = '';
-            if (contactTriggerElement) {
-                contactTriggerElement.focus();
-            }
-            // Wait for fade out transition before resetting
-            setTimeout(resetModal, 300);
-        };
-
-        openModalBtns.forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.preventDefault();
-                openContactModal();
-            });
-            btn.addEventListener('keydown', (e) => {
-                if (e.key === ' ' || e.key === 'Enter') {
-                    e.preventDefault();
-                    openContactModal();
-                }
-            });
-        });
-
-        if (closeModalBtn) {
-            closeModalBtn.addEventListener('click', closeContactModal);
-        }
-
-        // Close on outside click
-        contactModal.addEventListener('click', (e) => {
-            if (e.target === contactModal) {
-                closeContactModal();
-            }
-        });
-
-        // Trap focus and handle escape
-        contactModal.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeContactModal();
-                return;
-            }
-            if (e.key === 'Tab') {
-                const focusables = contactModal.querySelectorAll('button, input, textarea');
-                if (focusables.length > 0) {
-                    const first = focusables[0];
-                    const last = focusables[focusables.length - 1];
-                    if (e.shiftKey && document.activeElement === first) {
-                        last.focus();
-                        e.preventDefault();
-                    } else if (!e.shiftKey && document.activeElement === last) {
-                        first.focus();
-                        e.preventDefault();
-                    }
-                }
-            }
-        });
-
-        // Handle form submission with custom success UI and Web3Forms API
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
-
-            const submitBtn = contactForm.querySelector('.submit-btn');
-            const originalBtnText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-
-            // ENTER YOUR ACCESS KEY BELOW (Get your free key instantly from web3forms.com)
-            const accessKey = "ee1c8836-6339-4efd-bc8e-04c246818ec1";
-
-            const formData = {
-                access_key: accessKey,
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                message: document.getElementById('message').value
-            };
-
-            // Send to Web3Forms via AJAX
-            fetch("https://api.web3forms.com/submit", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Accept': 'application/json'
-                },
-                body: JSON.stringify(formData)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Hide the form and header
-                        contactForm.style.display = 'none';
-                        modalHeader.style.display = 'none';
-
-                        // Show the success message with a smooth fade
-                        successMessage.style.display = 'flex';
-                        successMessage.style.opacity = 0;
-                        setTimeout(() => successMessage.style.opacity = 1, 10);
-
-                        // Automatically close the modal after 2.5 seconds
-                        setTimeout(() => {
-                            closeContactModal();
-                        }, 2500);
-                    } else {
-                        throw new Error(data.message || "Failed to submit form");
-                    }
-                })
-                .catch(error => {
-                    console.error("Submission Error:", error);
-                    alert("Please add your Web3Forms Access Key to the code, or check your internet connection.");
-                })
-                .finally(() => {
-                    // Reset button state
-                    submitBtn.textContent = originalBtnText;
-                    submitBtn.disabled = false;
-                });
-        });
-    </script>
+    <script src="assets/js/script.js?v=72"></script>
 </body>
 
 </html>

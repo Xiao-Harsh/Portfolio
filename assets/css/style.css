@@ -663,140 +663,7 @@ main {
     display: block;
 }
 
-.about-glass-panel {
-    background: var(--apple-glass-bg);
-    backdrop-filter: var(--apple-glass-blur);
-    -webkit-backdrop-filter: var(--apple-glass-blur);
-    border: var(--apple-glass-border);
-    border-radius: 24px;
-    padding: 2.2rem 2.5rem;
-    box-shadow: var(--apple-glass-shadow);
-    transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
-    width: 100%;
-}
 
-.about-glass-panel:hover {
-    box-shadow: var(--apple-glass-shadow-hover);
-    transform: translateY(-4px);
-}
-
-.about-sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.sidebar-item {
-    display: flex;
-    align-items: center;
-    gap: 1.8rem;
-    padding-bottom: 2rem;
-    border-bottom: 1px solid var(--border-color);
-    width: 100%;
-}
-
-.sidebar-item:last-child {
-    border-bottom: none;
-    padding-bottom: 0;
-}
-
-.sidebar-icon {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 10px;
-    background-color: var(--icon-color);
-    color: #ffffff;
-    /* iOS style: white symbol in center */
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    flex-shrink: 0;
-}
-
-body.dark-mode .sidebar-icon {
-    background-color: var(--icon-color);
-}
-
-.sidebar-item:hover .sidebar-icon {
-    transform: scale(1.08);
-    box-shadow: 0 4px 15px rgba(var(--icon-rgb), 0.35);
-}
-
-/* Sidebar individual item accent colors (iOS Settings style) */
-.sidebar-item:nth-child(1) {
-    --icon-color: #007aff;
-    --icon-rgb: 0, 122, 255;
-}
-
-.sidebar-item:nth-child(2) {
-    --icon-color: #5856d6;
-    --icon-rgb: 88, 86, 214;
-}
-
-.sidebar-item:nth-child(3) {
-    --icon-color: #ff9500;
-    --icon-rgb: 255, 149, 0;
-}
-
-.sidebar-item:nth-child(4) {
-    --icon-color: #34c759;
-    --icon-rgb: 52, 199, 89;
-}
-
-.sidebar-info h3 {
-    font-size: 1.15rem;
-    font-weight: 600;
-    color: var(--text-color);
-    margin-bottom: 0.2rem;
-}
-
-.sidebar-info p {
-    font-size: 0.95rem;
-    color: var(--text-color-light);
-    font-weight: 400;
-}
-
-/* Responsiveness for About Grid */
-@media (max-width: 991px) {
-    .about-grid {
-        grid-template-columns: 1fr;
-        gap: 4rem;
-    }
-
-    .about-sidebar {
-        gap: 1.8rem;
-    }
-
-    .sidebar-item {
-        padding-bottom: 1.5rem;
-    }
-}
-
-@media (max-width: 600px) {
-    .sidebar-icon {
-        width: 48px;
-        height: 48px;
-    }
-
-    .sidebar-item {
-        gap: 1.2rem;
-        padding-bottom: 1.2rem;
-    }
-
-    .sidebar-info h3 {
-        font-size: 1.05rem;
-    }
-
-    .sidebar-info p {
-        font-size: 0.85rem;
-    }
-
-    .about-glass-panel {
-        padding: 1.8rem 1.4rem;
-        border-radius: 18px;
-    }
-}
 
 /* SKILLS SECTION */
 .skills {
@@ -950,22 +817,7 @@ body.dark-mode .skill-item img.invert-dark {
     display: none !important;
 }
 
-.skill-item.fade-enter {
-    opacity: 0;
-    transform: scale(0.85) translateY(12px);
-}
 
-.skill-item.fade-enter-active {
-    opacity: 1;
-    transform: scale(1) translateY(0);
-    transition: opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.skill-item.fade-exit-active {
-    opacity: 0;
-    transform: scale(0.85) translateY(12px);
-    transition: opacity 0.25s cubic-bezier(0.16, 1, 0.3, 1), transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
 
 /* Responsive Overrides */
 @media (max-width: 900px) {
@@ -1605,9 +1457,7 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
 
 /* Responsive (Basic) */
 @media (max-width: 1200px) {
-    .bg-text {
-        font-size: 10rem;
-    }
+
 
     .section-padding {
         padding: 3.2rem 3rem 5rem 3rem;
@@ -1652,10 +1502,7 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
         scroll-margin-top: 88px;
     }
 
-    .bg-text {
-        font-size: 8rem;
-        top: 15%;
-    }
+
 
     .availability-badge {
         left: 2rem;
@@ -1753,10 +1600,7 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
         height: 18px;
     }
 
-    .bg-text {
-        font-size: 5rem;
-        top: 20%;
-    }
+
 
     .availability-badge {
         font-size: 0.8rem;
@@ -1807,18 +1651,12 @@ body.dark-mode .timeline-item.highlight:hover .timeline-card {
 
     .contact {
         min-height: 100dvh;
-        height: 100dvh;
-        max-height: 100dvh;
-        padding: calc(65px + 1.2vh) 1.5rem 2vh 1.5rem !important;
+        height: auto;
+        padding: calc(65px + 1.2vh) 1.5rem 3vh 1.5rem;
         display: flex;
         align-items: center;
         justify-content: center;
         box-sizing: border-box;
-        overflow: hidden;
-    }
-
-    .contact.section-padding {
-        padding: calc(65px + 1.2vh) 1.5rem 2vh 1.5rem !important;
     }
 
     .contact .section-container {
@@ -2496,15 +2334,13 @@ body.dark-mode .project-modal-box {
 
 /* Premium Glassmorphism and Hover Glow Highlights */
 .project-card,
-.timeline-card,
-.about-glass-panel {
+.timeline-card {
     position: relative;
     overflow: hidden;
 }
 
 .project-card::before,
-.timeline-card::before,
-.about-glass-panel::before {
+.timeline-card::before {
     content: '';
     position: absolute;
     top: 0;
@@ -2522,8 +2358,7 @@ body.dark-mode .project-modal-box {
 }
 
 body.dark-mode .project-card::before,
-body.dark-mode .timeline-card::before,
-body.dark-mode .about-glass-panel::before {
+body.dark-mode .timeline-card::before {
     background: linear-gradient(90deg,
             rgba(255, 255, 255, 0) 0%,
             rgba(255, 255, 255, 0.03) 50%,
@@ -2531,8 +2366,7 @@ body.dark-mode .about-glass-panel::before {
 }
 
 .project-card:hover::before,
-.timeline-card:hover::before,
-.about-glass-panel:hover::before {
+.timeline-card:hover::before {
     left: 150%;
 }
 

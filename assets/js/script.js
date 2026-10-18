@@ -235,8 +235,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Close menu when clicking anywhere outside of it
         document.addEventListener('click', (e) => {
-            if (navMenu.classList.contains('open') && 
-                !navMenu.contains(e.target) && 
+            if (navMenu.classList.contains('open') &&
+                !navMenu.contains(e.target) &&
                 !menuToggleBtn.contains(e.target)) {
                 closeMobileMenu();
             }
@@ -589,16 +589,149 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
-    // 9. Scrollbar Visibility fading on inactivity
-    if (projectModalBody) {
-        let scrollTimeout;
-        projectModalBody.addEventListener('scroll', () => {
-            projectModalBody.classList.add('is-scrolling');
-            clearTimeout(scrollTimeout);
-            scrollTimeout = setTimeout(() => {
-                projectModalBody.classList.remove('is-scrolling');
-            }, 800);
-        }, { passive: true });
+    // 10. Contact Modal & Web3Forms AJAX Handler
+    const contactModal = document.getElementById('contact-modal');
+    const openContactModalBtns = document.querySelectorAll('.open-contact-btn');
+    const closeContactModalBtn = contactModal ? contactModal.querySelector('.close-modal') : null;
+    const contactForm = document.getElementById('contact-form');
+    const modalHeader = document.getElementById('modal-header');
+    const successMessage = document.getElementById('success-message');
+    let contactTriggerElement = null;
+
+    const resetContactModal = () => {
+        if (contactForm) {
+            contactForm.reset();
+            contactForm.style.display = 'flex';
+        }
+        if (modalHeader) modalHeader.style.display = 'flex';
+        if (successMessage) successMessage.style.display = 'none';
+    };
+
+    const openContactModal = () => {
+        if (!contactModal) return;
+        contactTriggerElement = document.activeElement;
+        contactModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+        setTimeout(() => {
+            if (closeContactModalBtn) closeContactModalBtn.focus();
+        }, 100);
+    };
+
+    const closeContactModal = () => {
+        if (!contactModal) return;
+        contactModal.classList.remove('active');
+        document.body.style.overflow = '';
+        if (contactTriggerElement) {
+            contactTriggerElement.focus();
+        }
+        setTimeout(resetContactModal, 300);
+    };
+
+    openContactModalBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openContactModal();
+        });
+        btn.addEventListener('keydown', (e) => {
+            if (e.key === ' ' || e.key === 'Enter') {
+                e.preventDefault();
+                openContactModal();
+            }
+        });
+    });
+
+    if (closeContactModalBtn) {
+        closeContactModalBtn.addEventListener('click', closeContactModal);
+    }
+
+    if (contactModal) {
+        contactModal.addEventListener('click', (e) => {
+            if (e.target === contactModal) {
+                closeContactModal();
+            }
+        });
+
+        contactModal.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeContactModal();
+                return;
+            }
+            if (e.key === 'Tab') {
+                const focusables = contactModal.querySelectorAll('button, input, textarea');
+                if (focusables.length > 0) {
+                    const first = focusables[0];
+                    const last = focusables[focusables.length - 1];
+                    if (e.shiftKey && document.activeElement === first) {
+                        last.focus();
+                        e.preventDefault();
+                    } else if (!e.shiftKey && document.activeElement === last) {
+                        first.focus();
+                        e.preventDefault();
+                    }
+                }
+            }
+        });
+    }
+
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const submitBtn = contactForm.querySelector('.submit-btn');
+            const originalBtnText = submitBtn ? submitBtn.textContent : 'Send Message';
+            if (submitBtn) {
+                submitBtn.textContent = 'Sending...';
+                submitBtn.disabled = true;
+            }
+
+            const accessKey = "ee1c8836-6339-4efd-bc8e-04c246818ec1";
+
+            const formData = {
+                access_key: accessKey,
+                name: document.getElementById('name') ? document.getElementById('name').value : '',
+                email: document.getElementById('email') ? document.getElementById('email').value : '',
+                message: document.getElementById('message') ? document.getElementById('message').value : ''
+            };
+
+            fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        contactForm.style.display = 'none';
+                        if (modalHeader) modalHeader.style.display = 'none';
+
+                        if (successMessage) {
+                            successMessage.style.display = 'flex';
+                            successMessage.style.opacity = 0;
+                            setTimeout(() => successMessage.style.opacity = 1, 10);
+                        }
+
+                        setTimeout(() => {
+                            closeContactModal();
+                        }, 2500);
+                    } else {
+                        throw new Error(data.message || "Failed to submit form");
+                    }
+                })
+                .catch(error => {
+                    console.error("Submission Error:", error);
+                    alert("Please add your Web3Forms Access Key to the code, or check your internet connection.");
+                })
+                .finally(() => {
+                    if (submitBtn) {
+                        submitBtn.textContent = originalBtnText;
+                        submitBtn.disabled = false;
+                    }
+                });
+        });
     }
 
 });
+
