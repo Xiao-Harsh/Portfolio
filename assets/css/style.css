@@ -663,6 +663,14 @@ main {
     display: block;
 }
 
+/* Responsiveness for About Grid */
+@media (max-width: 991px) {
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+    }
+}
+
 
 
 /* SKILLS SECTION */
